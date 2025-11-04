@@ -1,0 +1,1 @@
+mail taslağınızı lütfen buraya yapıştırın merge edilmesini istediğiniz şirket ismini [ŞİRKET ADI] olarak yazınız lütfen
