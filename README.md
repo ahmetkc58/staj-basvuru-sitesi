@@ -28,7 +28,7 @@ Modern ve kullanıcı dostu bir web arayüzü ile toplu mail gönderme uygulamas
 
 1. **Projeyi klonlayın:**
 ```bash
-git clone https://github.com/KULLANICI_ADINIZ/staj-basvuru.git
+gh repo clone ahmetkc58/staj-basvuru-sitesi
 cd staj-basvuru
 ```
 
