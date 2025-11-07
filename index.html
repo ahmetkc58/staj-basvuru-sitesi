@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staj Başvuru Maili Gönder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px;
+        }
+        
+        .section-title {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        textarea {
+            min-height: 400px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            text-align: center;
+            display: none;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .stats {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .stats div {
+            display: inline-block;
+            margin: 0 15px;
+        }
+        
+        .stats span {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-upload input[type="file"] {
+            display: none;
+        }
+        
+        .file-upload-label {
+            display: block;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border: 2px dashed #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .file-upload-label:hover {
+            border-color: #667eea;
+            background: #f0f2ff;
+        }
+        
+        .preview {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Giriş Ekranı -->
+    <div id="loginScreen" class="header" style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
+        <div class="container" style="max-width: 500px;">
+            <h2 class="section-title" style="text-align: center; font-size: 24px; margin-bottom: 15px;">🔐 Gmail Bilgilerinizi Girin</h2>
+            
+            <!-- Açıklama -->
+            <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 10px; padding: 15px; margin-bottom: 20px;">
+                <p style="margin: 0; font-size: 13px; color: #856404; line-height: 1.6;">
+                    <strong>⚠️ Önemli:</strong> Normal Gmail şifreniz değil, <strong>Uygulama Şifresi</strong> kullanmalısınız!
+                </p>
+                <p style="margin: 10px 0 0 0; font-size: 12px; color: #856404;">
+                    <strong>Nasıl alınır?</strong><br>
+                    1. <a href="https://myaccount.google.com/security" target="_blank" style="color: #667eea;">Google Güvenlik</a> sayfasına gidin<br>
+                    2. "2 Adımlı Doğrulama"yı açın (zorunlu)<br>
+                    3. <a href="https://myaccount.google.com/apppasswords" target="_blank" style="color: #667eea;">Uygulama Şifreleri</a> bölümüne gidin<br>
+                    4. Yeni şifre oluşturun (16 haneli)<br>
+                    5. Oluşan şifreyi kopyalayıp aşağıya yapıştırın
+                </p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Gmail Adresi</label>
+                    <input type="email" id="gmail" placeholder="ornek@gmail.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Uygulama Şifresi (16 haneli)</label>
+                    <input type="password" id="password" placeholder="abcd efgh ijkl mnop" required>
+                </div>
+                
+                <button type="submit">✓ Devam Et</button>
+            </form>
+            
+            <div id="loginMessage" class="message"></div>
+        </div>
+    </div>
+
+    <!-- Ana Ekran -->
+    <div id="mainScreen" style="display: none;">
+    <div class="header">
+        <h1>📧 Staj Başvuru Mail Sistemi</h1>
+        <p>Mail taslağını düzenleyin, CV yükleyin ve mail gönderin</p>
+    </div>
+
+    <div class="main-container">
+        <!-- Sol Taraf: Mail Taslağı -->
+        <div class="container">
+            <h2 class="section-title">📝 Mail Taslağı</h2>
+            
+            <div class="form-group">
+                <label>Mail İçeriği ({{ template|length }} karakter)</label>
+                <textarea id="template" oninput="updatePreview()">{{ template }}</textarea>
+            </div>
+            
+            <button onclick="saveTemplate()">💾 Taslağı Kaydet</button>
+            <div id="templateMessage" class="message"></div>
+            
+            <div class="form-group" style="margin-top: 20px;">
+                <label>Canlı Önizleme</label>
+                <div id="preview" class="preview" style="display: block;"></div>
+            </div>
+        </div>
+
+        <!-- Sağ Taraf: Mail Gönderimi -->
+        <div class="container">
+            <h2 class="section-title">📤 Mail Gönder</h2>
+            
+            <div class="form-group">
+                <label>CV Yükle (PDF)</label>
+                <div class="file-upload">
+                    <input type="file" id="cvFile" accept=".pdf" onchange="uploadCV()">
+                    <label for="cvFile" class="file-upload-label">
+                        <span id="cvLabel">📎 PDF Dosyası Seçin</span>
+                    </label>
+                </div>
+                <div id="cvMessage" class="message"></div>
+            </div>
+            
+            <form id="emailForm">
+                <div class="form-group">
+                    <label>Şirket Adı</label>
+                    <input type="text" id="company_name" placeholder="Örn: 12 Yazılım" required oninput="updatePreview()">
+                </div>
+                
+                <div class="form-group">
+                    <label>Mail Adresi</label>
+                    <input type="email" id="email" placeholder="Örn: info@firma.com" required>
+                </div>
+                
+                <button type="submit">✉️ Mail Gönder</button>
+            </form>
+            
+            <div id="message" class="message"></div>
+            
+            <div class="stats">
+                <div>
+                    <small>Gönderilen</small>
+                    <span id="sentCount">0</span>
+                </div>
+                <div>
+                    <small>Başarısız</small>
+                    <span id="failCount">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        let sentCount = 0;
+        let failCount = 0;
+        
+        // Sayfa yüklendiğinde istatistikleri al
+        window.onload = async function() {
+            try {
+                const response = await fetch('/get_stats');
+                const stats = await response.json();
+                sentCount = stats.sent;
+                failCount = stats.failed;
+                document.getElementById('sentCount').textContent = sentCount;
+                document.getElementById('failCount').textContent = failCount;
+            } catch (e) {
+                console.error('İstatistik yüklenemedi:', e);
+            }
+            updatePreview();
+        };
+
+        // Giriş formu
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('gmail').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const messageDiv = document.getElementById('loginMessage');
+            
+            try {
+                const response = await fetch('/set_credentials', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Ana ekrana geç
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('mainScreen').style.display = 'block';
+                    updatePreview();
+                } else {
+                    messageDiv.className = 'message error';
+                    messageDiv.textContent = '✗ ' + data.message;
+                    messageDiv.style.display = 'block';
+                }
+            } catch (error) {
+                messageDiv.className = 'message error';
+                messageDiv.textContent = '✗ ' + error.message;
+                messageDiv.style.display = 'block';
+            }
+        });
+
+        // Önizlemeyi güncelle (canlı)
+        function updatePreview() {
+            const template = document.getElementById('template').value;
+            const companyName = document.getElementById('company_name').value.trim() || '[ŞİRKET ADI]';
+            const preview = document.getElementById('preview');
+            const previewText = template.replace(/\[ŞİRKET ADI\]/g, companyName);
+            preview.textContent = previewText;
+        }
+
+        // Taslağı kaydet
+        async function saveTemplate() {
+            const template = document.getElementById('template').value;
+            const messageDiv = document.getElementById('templateMessage');
+            
+            try {
+                const response = await fetch('/save_template', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ template })
+                });
+                
+                const data = await response.json();
+                messageDiv.className = response.ok ? 'message success' : 'message error';
+                messageDiv.textContent = data.message;
+                messageDiv.style.display = 'block';
+                setTimeout(() => messageDiv.style.display = 'none', 3000);
+            } catch (error) {
+                messageDiv.className = 'message error';
+                messageDiv.textContent = 'Hata: ' + error.message;
+                messageDiv.style.display = 'block';
+            }
+        }
+
+        // Önizleme göster
+        function showPreview() {
+            const template = document.getElementById('template').value;
+            const preview = document.getElementById('preview');
+            const exampleCompany = '12 Yazılım';
+            const previewText = template.replace(/\[ŞİRKET ADI\]/g, exampleCompany);
+            preview.textContent = previewText;
+            preview.style.display = 'block';
+        }
+
+        // CV yükle
+        async function uploadCV() {
+            const fileInput = document.getElementById('cvFile');
+            const file = fileInput.files[0];
+            const messageDiv = document.getElementById('cvMessage');
+            const label = document.getElementById('cvLabel');
+            
+            if (!file) return;
+            
+            const formData = new FormData();
+            formData.append('cv', file);
+            
+            try {
+                const response = await fetch('/upload_cv', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                messageDiv.className = response.ok ? 'message success' : 'message error';
+                messageDiv.textContent = data.message;
+                messageDiv.style.display = 'block';
+                
+                if (response.ok) {
+                    label.textContent = '✓ ' + file.name;
+                }
+            } catch (error) {
+                messageDiv.className = 'message error';
+                messageDiv.textContent = 'Hata: ' + error.message;
+                messageDiv.style.display = 'block';
+            }
+        }
+
+        // Mail gönder
+        document.getElementById('emailForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const company_name = document.getElementById('company_name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const messageDiv = document.getElementById('message');
+            
+            try {
+                const response = await fetch('/send', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ company_name, email })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    messageDiv.className = 'message success';
+                    messageDiv.textContent = '✓ ' + data.message;
+                    document.getElementById('company_name').value = '';
+                    document.getElementById('email').value = '';
+                    
+                    // Sayaçları güncelle
+                    if (data.stats) {
+                        sentCount = data.stats.sent;
+                        document.getElementById('sentCount').textContent = sentCount;
+                    }
+                } else {
+                    messageDiv.className = 'message error';
+                    messageDiv.textContent = '✗ ' + data.message;
+                    
+                    // Sayaçları güncelle
+                    if (data.stats) {
+                        failCount = data.stats.failed;
+                        document.getElementById('failCount').textContent = failCount;
+                    }
+                }
+                
+                messageDiv.style.display = 'block';
+                setTimeout(() => messageDiv.style.display = 'none', 5000);
+            } catch (error) {
+                messageDiv.className = 'message error';
+                messageDiv.textContent = '✗ ' + error.message;
+                messageDiv.style.display = 'block';
+                failCount++;
+                document.getElementById('failCount').textContent = failCount;
+            }
+        });
+    </script>
+</body>
+</html>
+
