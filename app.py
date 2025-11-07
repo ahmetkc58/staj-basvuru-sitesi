@@ -6,7 +6,7 @@ from email.mime.application import MIMEApplication
 import os
 import json
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')  # Ana klasörü template klasörü olarak ayarla
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max
 
 # Mail taslağını oku
